@@ -1,0 +1,6 @@
+{
+  "name": "El rincón de los 3 - Colaciones",
+  "description": "Sistema integral de colaciones caseras chilenas con carta digital, pedidos vía WhatsApp, comandera táctil para cocina y administración de insumos con cuadre de caja.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

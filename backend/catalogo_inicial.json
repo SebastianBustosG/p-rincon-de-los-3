@@ -1,0 +1,318 @@
+{
+  "colaciones": [
+    {
+      "id_colacion": 1,
+      "nombre_colacion": "Pastel de Choclo Tradicional",
+      "descripcion_colacion": "Pino casero de posta seleccionada, pollo deshuesado, aceituna del Huasco, huevo duro y suave pastelera de choclo dorado al horno de barro.",
+      "precio_colacion": 6200,
+      "activa_colacion": true,
+      "categoria": "Especial del Día",
+      "imagen": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "15-20 min"
+    },
+    {
+      "id_colacion": 2,
+      "nombre_colacion": "Cazuela de Vacuno Criolla",
+      "descripcion_colacion": "Corte de tapapecho tierno, trozo generoso de zapallo camote, choclo en coronta, papa chilota, porotos verdes y caldo concentrado con chuchoca y cilantro.",
+      "precio_colacion": 5800,
+      "activa_colacion": true,
+      "categoria": "Plato Tradicional",
+      "imagen": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "10-15 min"
+    },
+    {
+      "id_colacion": 3,
+      "nombre_colacion": "Charquicán Casero con Huevo Frito",
+      "descripcion_colacion": "Guiso tradicional de carne molida magra, papa machacada, zapallo camote, choclo y arvejitas, coronado con un huevo de campo frito al punto.",
+      "precio_colacion": 5200,
+      "activa_colacion": true,
+      "categoria": "Plato Tradicional",
+      "imagen": "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "10-15 min"
+    },
+    {
+      "id_colacion": 4,
+      "nombre_colacion": "Pollo al Jugo con Arroz y Chilena",
+      "descripcion_colacion": "Trutro o pechuga tierna cocinada a fuego lento en caldo de verduras y vino blanco, acompañada de arroz graneado y ensalada a la chilena.",
+      "precio_colacion": 4900,
+      "activa_colacion": true,
+      "categoria": "Especial del Día",
+      "imagen": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "10-15 min"
+    },
+    {
+      "id_colacion": 5,
+      "nombre_colacion": "Porotos con Riendas y Longaniza",
+      "descripcion_colacion": "Guiso cremoso de porotos tórtola con tallarines, zapallo camote cocido, sofrito de cebolla con ají de color y trozo de longaniza parrillera artesanal.",
+      "precio_colacion": 5400,
+      "activa_colacion": true,
+      "categoria": "Plato Tradicional",
+      "imagen": "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "12-18 min"
+    },
+    {
+      "id_colacion": 6,
+      "nombre_colacion": "Pescado Frito con Papas Mayo",
+      "descripcion_colacion": "Filete de merluza austral con batido crujiente a la chilena, acompañado de papas mayo caseras con perejil fresco y ensalada de tomate.",
+      "precio_colacion": 6500,
+      "activa_colacion": true,
+      "categoria": "Especial del Día",
+      "imagen": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80",
+      "tiempo_estimado": "15-20 min"
+    }
+  ],
+  "insumos": [
+    {
+      "id_insumo": 1,
+      "nombre_insumo": "Posta Negra (Carne Vacuno)",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 4.5,
+      "stock_minimo_insumo": 3,
+      "costo_unitario": 8500
+    },
+    {
+      "id_insumo": 2,
+      "nombre_insumo": "Choclo Pastelero / Humero",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 6,
+      "stock_minimo_insumo": 4,
+      "costo_unitario": 2200
+    },
+    {
+      "id_insumo": 3,
+      "nombre_insumo": "Papas Chilotas",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 8,
+      "stock_minimo_insumo": 5,
+      "costo_unitario": 1100
+    },
+    {
+      "id_insumo": 4,
+      "nombre_insumo": "Zapallo Camote",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 3.2,
+      "stock_minimo_insumo": 2,
+      "costo_unitario": 1400
+    },
+    {
+      "id_insumo": 5,
+      "nombre_insumo": "Pechuga de Pollo Fresca",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 5,
+      "stock_minimo_insumo": 3.5,
+      "costo_unitario": 5200
+    },
+    {
+      "id_insumo": 6,
+      "nombre_insumo": "Arroz Grano Grueso G2",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 7,
+      "stock_minimo_insumo": 4,
+      "costo_unitario": 1350
+    },
+    {
+      "id_insumo": 7,
+      "nombre_insumo": "Porotos Tórtola",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 1.2,
+      "stock_minimo_insumo": 3,
+      "costo_unitario": 2800
+    },
+    {
+      "id_insumo": 8,
+      "nombre_insumo": "Tallarines Spaghetti N°5",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 2.5,
+      "stock_minimo_insumo": 2,
+      "costo_unitario": 1200
+    },
+    {
+      "id_insumo": 9,
+      "nombre_insumo": "Merluza Austral Filete",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 0.2,
+      "stock_minimo_insumo": 3,
+      "costo_unitario": 7900
+    },
+    {
+      "id_insumo": 10,
+      "nombre_insumo": "Cebolla Morada / Valenzana",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 6.5,
+      "stock_minimo_insumo": 4,
+      "costo_unitario": 950
+    },
+    {
+      "id_insumo": 11,
+      "nombre_insumo": "Tomates Limachinos",
+      "unidad_medida_insumo": "kg",
+      "stock_actual_insumo": 5,
+      "stock_minimo_insumo": 3,
+      "costo_unitario": 1600
+    },
+    {
+      "id_insumo": 12,
+      "nombre_insumo": "Huevos de Campo Grado A",
+      "unidad_medida_insumo": "un",
+      "stock_actual_insumo": 24,
+      "stock_minimo_insumo": 12,
+      "costo_unitario": 220
+    }
+  ],
+  "recetas": [
+    {
+      "id_receta": 1,
+      "colacion_id": 1,
+      "insumo_id": 1,
+      "nombre_receta": "Pastel de Choclo",
+      "cantidad_necesaria_receta": 0.2
+    },
+    {
+      "id_receta": 2,
+      "colacion_id": 1,
+      "insumo_id": 2,
+      "nombre_receta": "Pastel de Choclo",
+      "cantidad_necesaria_receta": 0.35
+    },
+    {
+      "id_receta": 3,
+      "colacion_id": 1,
+      "insumo_id": 5,
+      "nombre_receta": "Pastel de Choclo",
+      "cantidad_necesaria_receta": 0.15
+    },
+    {
+      "id_receta": 4,
+      "colacion_id": 1,
+      "insumo_id": 10,
+      "nombre_receta": "Pastel de Choclo",
+      "cantidad_necesaria_receta": 0.1
+    },
+    {
+      "id_receta": 5,
+      "colacion_id": 2,
+      "insumo_id": 1,
+      "nombre_receta": "Cazuela de Vacuno",
+      "cantidad_necesaria_receta": 0.25
+    },
+    {
+      "id_receta": 6,
+      "colacion_id": 2,
+      "insumo_id": 3,
+      "nombre_receta": "Cazuela de Vacuno",
+      "cantidad_necesaria_receta": 0.25
+    },
+    {
+      "id_receta": 7,
+      "colacion_id": 2,
+      "insumo_id": 4,
+      "nombre_receta": "Cazuela de Vacuno",
+      "cantidad_necesaria_receta": 0.2
+    },
+    {
+      "id_receta": 8,
+      "colacion_id": 2,
+      "insumo_id": 2,
+      "nombre_receta": "Cazuela de Vacuno",
+      "cantidad_necesaria_receta": 0.15
+    },
+    {
+      "id_receta": 9,
+      "colacion_id": 3,
+      "insumo_id": 1,
+      "nombre_receta": "Charquicán Casero",
+      "cantidad_necesaria_receta": 0.15
+    },
+    {
+      "id_receta": 10,
+      "colacion_id": 3,
+      "insumo_id": 3,
+      "nombre_receta": "Charquicán Casero",
+      "cantidad_necesaria_receta": 0.25
+    },
+    {
+      "id_receta": 11,
+      "colacion_id": 3,
+      "insumo_id": 4,
+      "nombre_receta": "Charquicán Casero",
+      "cantidad_necesaria_receta": 0.2
+    },
+    {
+      "id_receta": 12,
+      "colacion_id": 3,
+      "insumo_id": 12,
+      "nombre_receta": "Charquicán Casero",
+      "cantidad_necesaria_receta": 1
+    },
+    {
+      "id_receta": 13,
+      "colacion_id": 4,
+      "insumo_id": 5,
+      "nombre_receta": "Pollo al Jugo",
+      "cantidad_necesaria_receta": 0.3
+    },
+    {
+      "id_receta": 14,
+      "colacion_id": 4,
+      "insumo_id": 6,
+      "nombre_receta": "Pollo al Jugo",
+      "cantidad_necesaria_receta": 0.12
+    },
+    {
+      "id_receta": 15,
+      "colacion_id": 4,
+      "insumo_id": 11,
+      "nombre_receta": "Pollo al Jugo",
+      "cantidad_necesaria_receta": 0.15
+    },
+    {
+      "id_receta": 16,
+      "colacion_id": 4,
+      "insumo_id": 10,
+      "nombre_receta": "Pollo al Jugo",
+      "cantidad_necesaria_receta": 0.08
+    },
+    {
+      "id_receta": 17,
+      "colacion_id": 5,
+      "insumo_id": 7,
+      "nombre_receta": "Porotos con Riendas",
+      "cantidad_necesaria_receta": 0.2
+    },
+    {
+      "id_receta": 18,
+      "colacion_id": 5,
+      "insumo_id": 8,
+      "nombre_receta": "Porotos con Riendas",
+      "cantidad_necesaria_receta": 0.1
+    },
+    {
+      "id_receta": 19,
+      "colacion_id": 5,
+      "insumo_id": 4,
+      "nombre_receta": "Porotos con Riendas",
+      "cantidad_necesaria_receta": 0.15
+    },
+    {
+      "id_receta": 20,
+      "colacion_id": 6,
+      "insumo_id": 9,
+      "nombre_receta": "Pescado Frito",
+      "cantidad_necesaria_receta": 0.35
+    },
+    {
+      "id_receta": 21,
+      "colacion_id": 6,
+      "insumo_id": 3,
+      "nombre_receta": "Pescado Frito",
+      "cantidad_necesaria_receta": 0.25
+    },
+    {
+      "id_receta": 22,
+      "colacion_id": 6,
+      "insumo_id": 11,
+      "nombre_receta": "Pescado Frito",
+      "cantidad_necesaria_receta": 0.15
+    }
+  ]
+}
