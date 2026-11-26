@@ -170,6 +170,23 @@ def handle(request, route, data):
         return {'account': None}
     if route == 'orders/': return create_order(request, data)
     require_admin(request)
+    if route == 'supplies/save/':
+        identifier = data.get('id_insumo')
+        supply = Insumo.objects.filter(pk=identifier).first() if identifier else Insumo()
+        if supply is None: raise ApiError('Insumo no encontrado.', 404)
+        for field in ['nombre_insumo', 'unidad_medida_insumo', 'stock_actual_insumo', 'stock_minimo_insumo', 'costo_unitario']:
+            if field not in data: raise ApiError('Completa todos los campos del insumo.')
+            setattr(supply, field, data[field])
+        supply.full_clean()
+        supply.save()
+        return {'ok': True, 'id_insumo': supply.pk}
+    if route == 'supplies/delete/':
+        supply = Insumo.objects.filter(pk=data.get('id_insumo')).first()
+        if not supply: raise ApiError('Insumo no encontrado.', 404)
+        if supply.recetas.exists() or any(str(supply.pk) in o.insumos_descontados for o in Pedido.objects.exclude(estado_pedido='Cancelado')):
+            raise ApiError('El insumo está vinculado a recetas o pedidos. Retira esas referencias antes de eliminarlo.', 409)
+        supply.delete()
+        return {'ok': True}
     parts = route.strip('/').split('/')
     if len(parts) != 3 or not parts[1].isdigit(): raise ApiError('Ruta no encontrada.', 404)
     category, identifier, action = parts

@@ -1,3 +1,4 @@
+import { GestionInsumos } from './GestionInsumos';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Insumo, Colacion } from '../types';
@@ -39,7 +40,9 @@ export const Modulo3Admin: React.FC = () => {
   const [nuevoStockVal, setNuevoStockVal] = useState<string>('');
   const [filtroSoloCriticos, setFiltroSoloCriticos] = useState(false);
 
-  const cuadre = obtenerCuadreCaja();
+  const [incluirCosto, setIncluirCosto] = useState(true);
+  const original = obtenerCuadreCaja();
+  const cuadre = { ...original, costoInsumosConsumidos: incluirCosto ? original.costoInsumosConsumidos : 0, utilidadBruta: incluirCosto ? original.utilidadBruta : original.ventasTotales, margenPorcentaje: incluirCosto ? original.margenPorcentaje : original.ventasTotales > 0 ? 100 : 0 };
 
   const insumosCriticos = insumos.filter(i => i.stock_actual_insumo <= i.stock_minimo_insumo);
   const insumosMostrados = filtroSoloCriticos ? insumosCriticos : insumos;
@@ -60,7 +63,7 @@ REPORTE DE CUADRE DE CAJA DIARIO - "EL RINCÓN DE LOS 3"
 Fecha: ${fecha} - ${new Date().toLocaleTimeString('es-CL')}
 ======================================================
 
-RESUMEN FINANCIERO:
+RESUMEN FINANCIERO (costo de insumos ${incluirCosto ? 'incluido' : 'excluido'}):
 - Ventas Totales:           $${cuadre.ventasTotales.toLocaleString('es-CL')} CLP
 - Costo Insumos Consumidos: $${cuadre.costoInsumosConsumidos.toLocaleString('es-CL')} CLP
 ------------------------------------------------------
@@ -153,6 +156,7 @@ Generado automáticamente por el Sistema El rincón de los 3
       {tabActual === 'insumos' && (
         <div className="space-y-6">
           
+          <GestionInsumos />
           {/* Banner de Alerta si hay Stock Crítico */}
           {insumosCriticos.length > 0 && (
             <div className="p-4 rounded-xl bg-rose-50 border-2 border-rose-300 text-rose-900 flex items-start justify-between gap-3 shadow-2xs">
@@ -160,7 +164,7 @@ Generado automáticamente por el Sistema El rincón de los 3
                 <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5 animate-pulse" />
                 <div>
                   <h4 className="font-bold text-sm text-rose-950">
-                    Alerta de Stock Crítico ({insumosCriticos.length} insumos bajo el mínimo)
+                    Alerta de Stock Crítico ({insumosCriticos.length} insumos en o bajo el mínimo)
                   </h4>
                   <p className="text-xs text-rose-800 mt-0.5">
                     Los siguientes insumos requieren reposición inmediata para no bloquear la carta de clientes:
@@ -345,6 +349,8 @@ Generado automáticamente por el Sistema El rincón de los 3
       {tabActual === 'caja' && (
         <div className="space-y-6">
           
+          <label className="flex items-center gap-2"><input type="checkbox" checked={incluirCosto} onChange={e => setIncluirCosto(e.target.checked)} />Incluir costo de insumos en el cuadre y reporte</label>
+          {!incluirCosto && <p className="text-sm text-stone-600">Resultado sin descontar ingredientes; no representa la ganancia real.</p>}
           {/* Tarjetas Principales de Métricas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             
