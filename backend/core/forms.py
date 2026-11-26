@@ -8,12 +8,12 @@ def full_name(value):
     return ' '.join(parts)
 class ProfileForm(forms.Form):
     username = forms.CharField(max_length=30, min_length=3)
-    telefono = forms.RegexField(r'^[0-9]+$', min_length=8, max_length=15, strip=False, error_messages={'invalid':'El teléfono debe contener solo números, sin +, espacios ni símbolos.'})
+    telefono = forms.RegexField(r'^56[0-9]{9}$', strip=False, error_messages={'invalid':'El teléfono debe ser chileno con prefijo 56 y exactamente 11 dígitos, sin signo + ni espacios.'})
     direccion = forms.CharField(max_length=120)
     def clean_username(self): return full_name(self.cleaned_data['username'])
 class OrderForm(forms.Form):
     nombre = forms.CharField(max_length=40)
-    telefono = forms.RegexField(r'^[0-9]+$', min_length=8, max_length=15, strip=False, error_messages={'invalid':'El teléfono debe contener solo números.'})
+    telefono = forms.RegexField(r'^56[0-9]{9}$', strip=False, error_messages={'invalid':'El teléfono debe ser chileno con prefijo 56 y exactamente 11 dígitos, sin signo + ni espacios.'})
     tipoEntrega = forms.ChoiceField(choices=[(x,x) for x in ['Retiro en Local','Despacho a Domicilio']])
     direccion = forms.CharField(max_length=120, required=False)
     metodoPago = forms.ChoiceField(choices=[(x,x) for x in ['Efectivo','Transferencia','Débito']])

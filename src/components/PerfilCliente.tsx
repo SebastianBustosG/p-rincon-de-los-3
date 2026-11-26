@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
+import { telefonoChilenoValido, TELEFONO_ERROR } from '../validation';
 export function PerfilCliente() {
   const { account, setShowProfile, updateProfile, deleteAccount } = useAuth(); const { pedidos } = useApp();
   const [editing, setEditing] = useState(false);
@@ -29,6 +30,7 @@ export function PerfilCliente() {
   }
   async function save(e: React.FormEvent) {
     e.preventDefault(); setError(''); setSuccess('');
+    if (!telefonoChilenoValido(telefono)) { setError(TELEFONO_ERROR); return; }
     if (newPassword !== confirmation) { setError('Las contraseñas nuevas no coinciden.'); return; }
     setSaving(true);
     try {
@@ -51,7 +53,8 @@ export function PerfilCliente() {
         <fieldset disabled={saving} className="space-y-4 disabled:opacity-60">
           <label className="block text-sm font-medium">Nombre de usuario (nombre y dos apellidos)<input className={inputClass} value={username} onChange={e => setUsername(e.target.value)} required minLength={3} maxLength={30} autoComplete="username" /></label>
           <p className="text-xs text-stone-500">Incluye tu nombre y tus dos apellidos (ej. Benjamín Pérez González). Usarás este nombre de usuario para iniciar sesión.</p>
-          <label className="block text-sm font-medium">Teléfono<input className={inputClass} value={telefono} onChange={e => setTelefono(e.target.value)} type="tel" inputMode="numeric" maxLength={15} autoComplete="tel" required /></label>
+          <label className="block text-sm font-medium">Teléfono<input className={inputClass} value={telefono} onChange={e => setTelefono(e.target.value)} type="tel" inputMode="numeric" maxLength={11} pattern="^56[0-9]{9}$" placeholder="Ej. 56912345678" autoComplete="tel" required /></label>
+          <p className="text-xs text-stone-500">Formato chileno: exactamente 11 dígitos con prefijo 56 fijo, sin signo + ni espacios (ej. 56912345678).</p>
           <label className="block text-sm font-medium">Dirección<input className={inputClass} value={direccion} onChange={e => setDireccion(e.target.value)} maxLength={120} autoComplete="street-address" required /></label>
           <div className="border-t border-stone-200 pt-4 space-y-4">
             <h3 className="text-sm font-semibold">Cambiar contraseña (opcional)</h3>

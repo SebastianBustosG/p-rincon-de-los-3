@@ -39,7 +39,7 @@ class ApiTests(TestCase):
         self.assertNotIn('insumo_faltante',state['colaciones'][0])
     def test_registration_validation_and_hashed_password(self):
         data={'username':'María Pérez Díaz','telefono':'56911112222','direccion':'Talca 20','password':'Cliente2026!'}
-        for changes in [{'username':'María Pérez'},{'telefono':'+56911112222'},{'telefono':'569 11112222'},{'telefono':'569ABC11222'},{'username':'A'*31},{'direccion':'x'*121},{'password':'corta'}]:
+        for changes in [{'username':'María Pérez'},{'telefono':'+56911112222'},{'telefono':'569 11112222'},{'telefono':'569ABC11222'},{'telefono':'911112222'},{'telefono':'569111122'},{'telefono':'569111122223'},{'telefono':'54911112222'},{'username':'A'*31},{'direccion':'x'*121},{'password':'corta'}]:
             self.assertEqual(self.post('auth/register/',{**data,**changes}).status_code,400)
         self.assertEqual(self.post('auth/register/',data).status_code,200)
         user=Usuario.objects.get(username_usuario=data['username'])
@@ -71,7 +71,7 @@ class ApiTests(TestCase):
         self.assertEqual(self.supply.stock_actual_insumo,5)
         self.assertEqual(Pedido.objects.count(),0)
     def test_bad_order_values_and_inactive_dish(self):
-        for change in [{'nombre':'Ana Pérez'},{'telefono':'+56912345678'},{'tipoEntrega':'Despacho a Domicilio'},{'observaciones':'x'*201},{'items':[{'id_colacion':self.dish.pk,'cantidad':-1}]},{'items':[{'id_colacion':self.dish.pk,'cantidad':1.5}]},{'metodoPago':'Efectivo','montoPagaCon':1}]:
+        for change in [{'nombre':'Ana Pérez'},{'telefono':'+56912345678'},{'telefono':'912345678'},{'telefono':'5691234567'},{'telefono':'569123456789'},{'telefono':'54912345678'},{'tipoEntrega':'Despacho a Domicilio'},{'observaciones':'x'*201},{'items':[{'id_colacion':self.dish.pk,'cantidad':-1}]},{'items':[{'id_colacion':self.dish.pk,'cantidad':1.5}]},{'metodoPago':'Efectivo','montoPagaCon':1}]:
             self.assertEqual(self.post('orders/',self.payload(**change)).status_code,400)
         self.dish.activa_colacion=False
         self.dish.save()

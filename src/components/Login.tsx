@@ -2,6 +2,7 @@ import { ThemeToggle } from '../context/ThemeContext';
 import React, { useState } from 'react';
 import { UtensilsCrossed, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { telefonoChilenoValido, TELEFONO_ERROR } from '../validation';
 export function Login() {
   const { login, register, enterGuest } = useAuth();
   const [registering, setRegistering] = useState(false);
@@ -11,7 +12,12 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
   async function submit(e: React.FormEvent) {
-    e.preventDefault(); setError(''); setBusy(true);
+    e.preventDefault(); setError('');
+    if (registering && !telefonoChilenoValido(telefono)) {
+      setError(TELEFONO_ERROR);
+      return;
+    }
+    setBusy(true);
     try { if (registering) await register(username, telefono, direccion, password); else await login(username, password); }
     catch (err) { setError(err instanceof Error ? err.message : 'No se pudo ingresar. Inténtalo otra vez.'); }
     finally { setBusy(false); }
@@ -32,8 +38,8 @@ export function Login() {
         <form onSubmit={submit} className="space-y-4">
           <label className="block text-sm font-medium">{registering ? 'Nombre de usuario (nombre y dos apellidos)' : 'Nombre de usuario'}<input className={input} required minLength={registering ? 3 : 1} maxLength={30} autoComplete="username" placeholder={registering ? 'Ej. Benjamín Pérez González' : undefined} aria-describedby={registering ? 'registro-nombre-ayuda' : undefined} value={username} onChange={e => setUsername(e.target.value)} /></label>
           {registering && <p id="registro-nombre-ayuda" className="text-xs text-stone-500">Tu nombre de usuario debe incluir tu nombre y tus dos apellidos, separados por espacios. Lo usarás para iniciar sesión.</p>}
-          {registering && <><label className="block text-sm font-medium">Teléfono<input className={input} maxLength={15} type="tel" inputMode="numeric" autoComplete="tel" placeholder="Ej. 56912345678" aria-describedby="registro-telefono-ayuda" required value={telefono} onChange={e => setTelefono(e.target.value)} /></label>
-          <p id="registro-telefono-ayuda" className="text-xs text-stone-500">Solo números, sin +, espacios ni símbolos. Ejemplo: 56912345678.</p>
+          {registering && <><label className="block text-sm font-medium">Teléfono<input className={input} maxLength={11} pattern="^56[0-9]{9}$" type="tel" inputMode="numeric" autoComplete="tel" placeholder="Ej. 56912345678" aria-describedby="registro-telefono-ayuda" required value={telefono} onChange={e => setTelefono(e.target.value)} /></label>
+          <p id="registro-telefono-ayuda" className="text-xs text-stone-500">Formato chileno: exactamente 11 dígitos con prefijo 56 fijo, sin signo + ni espacios. Ejemplo: 56912345678.</p>
           <label className="block text-sm font-medium">Dirección<input className={input} maxLength={120} autoComplete="street-address" required value={direccion} onChange={e => setDireccion(e.target.value)} /></label></>}
           <label className="block text-sm font-medium">Contraseña<input className={input} type="password" autoComplete={registering ? 'new-password' : 'current-password'} required minLength={registering ? 8 : 1} value={password} onChange={e => setPassword(e.target.value)} /></label>
           {registering && <p className="text-xs text-stone-500">Usa al menos 8 caracteres.</p>}

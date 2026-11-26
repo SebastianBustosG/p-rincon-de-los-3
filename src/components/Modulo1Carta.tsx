@@ -1,4 +1,4 @@
-import { nombreCompletoValido, NOMBRE_COMPLETO_ERROR } from '../validation';
+import { nombreCompletoValido, NOMBRE_COMPLETO_ERROR, telefonoChilenoValido, TELEFONO_ERROR } from '../validation';
 import { useAuth } from '../context/AuthContext';
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
@@ -57,7 +57,7 @@ export const Modulo1Carta: React.FC = () => {
   const [observaciones, setObservaciones] = useState('');
   const [contactTouched, setContactTouched] = useState({ nombre: false, telefono: false });
   const nombreValido = nombreCompletoValido(nombre);
-  const telefonoValido = /^[0-9]{8,15}$/.test(telefono);
+  const telefonoValido = telefonoChilenoValido(telefono);
   const nombreError = contactTouched.nombre && !nombreValido;
   const telefonoError = contactTouched.telefono && !telefonoValido;
   const validarContacto = () => {
@@ -104,6 +104,10 @@ export const Modulo1Carta: React.FC = () => {
     }
     if (!telefono.trim()) {
       setOrderError('Por favor ingresa tu teléfono o WhatsApp de contacto.');
+      return;
+    }
+    if (!telefonoChilenoValido(telefono)) {
+      setOrderError(TELEFONO_ERROR);
       return;
     }
     if (tipoEntrega === 'Despacho a Domicilio' && !direccion.trim()) {
@@ -156,6 +160,10 @@ export const Modulo1Carta: React.FC = () => {
     }
     if (!telefono.trim()) {
       setOrderError('Por favor ingresa tu teléfono de contacto.');
+      return;
+    }
+    if (!telefonoChilenoValido(telefono)) {
+      setOrderError(TELEFONO_ERROR);
       return;
     }
     if (tipoEntrega === 'Despacho a Domicilio' && !direccion.trim()) {
@@ -507,9 +515,9 @@ export const Modulo1Carta: React.FC = () => {
                     onChange={e => { setTelefono(e.target.value); setContactTouched(prev => ({ ...prev, telefono: true })); }}
                     onBlur={() => setContactTouched(prev => ({ ...prev, telefono: true }))}
                     id="pedido-telefono"
-                    maxLength={15}
+                    maxLength={11}
                     inputMode="numeric"
-                    pattern="[0-9]+"
+                    pattern="^56[0-9]{9}$"
                     autoComplete="tel"
                     aria-invalid={telefonoError}
                     aria-describedby={telefonoError ? 'pedido-telefono-error' : undefined}
@@ -517,7 +525,7 @@ export const Modulo1Carta: React.FC = () => {
                     className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600"
                   />
                 </div>
-                {telefonoError && <p id="pedido-telefono-error" role="alert" className="mt-1 text-xs text-red-700">Ingresa un teléfono de entre 8 y 15 dígitos, sin +, espacios, letras ni símbolos.</p>}
+                {telefonoError && <p id="pedido-telefono-error" role="alert" className="mt-1 text-xs text-red-700">{TELEFONO_ERROR}</p>}
               </div>
 
               {/* Tipo de Entrega */}
