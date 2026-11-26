@@ -85,9 +85,10 @@ export const Modulo1Carta: React.FC = () => {
   const categorias = ['todas', 'Especial del Día', 'Plato Tradicional'];
 
   const colacionesFiltradas = colaciones.filter(c => {
+    if (!c.activa_colacion || (c.porciones_disponibles ?? 0) <= 0) return false;
     if (categoriaSeleccionada === 'todas') return true;
     return c.categoria === categoriaSeleccionada;
-  });
+  }).sort((a, b) => a.nombre_colacion.localeCompare(b.nombre_colacion, 'es', { sensitivity: 'base' }));
 
   const total = cart.reduce((acc, item) => acc + item.colacion.precio_colacion * item.cantidad, 0);
 

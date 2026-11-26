@@ -1,3 +1,4 @@
+import { GestionRecetas } from './GestionRecetas';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Insumo, Colacion } from '../types';
@@ -501,6 +502,7 @@ Generado automáticamente por el Sistema El rincón de los 3
       {/* ================= TAB 3: RECETAS Y CARTA DIGITAL ================= */}
       {tabActual === 'recetas' && (
         <div className="space-y-6">
+          <GestionRecetas />
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-serif text-lg font-bold text-stone-900">
@@ -527,7 +529,7 @@ Generado automáticamente por el Sistema El rincón de los 3
               });
 
               const margenEstimado = colacion.precio_colacion - costoPlato;
-              const porcentajeMargen = Math.round((margenEstimado / colacion.precio_colacion) * 100);
+              const porcentajeMargen = colacion.precio_colacion > 0 ? Math.round((margenEstimado / colacion.precio_colacion) * 100) : 0;
 
               return (
                 <div key={colacion.id_colacion} className="bg-white rounded-2xl border border-stone-200 p-5 shadow-2xs space-y-4">

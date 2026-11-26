@@ -51,9 +51,10 @@ def availability(colacion):
 def state(request):
     is_admin = request.user.is_authenticated and request.user.rol == 'administrador'
     dishes = []
-    for dish in Colacion.objects.prefetch_related('recetas__insumo').order_by('id_colacion'):
+    for dish in Colacion.objects.prefetch_related('recetas__insumo').order_by('nombre_colacion', 'id_colacion'):
         data = {field: getattr(dish, field) for field in ['id_colacion','nombre_colacion','descripcion_colacion','precio_colacion','activa_colacion','categoria','imagen','tiempo_estimado']}
         portions, missing = availability(dish)
+        if not is_admin and (not dish.activa_colacion or portions <= 0): continue
         data['porciones_disponibles'] = portions
         if is_admin: data['insumo_faltante'] = missing
         dishes.append(data)
@@ -170,6 +171,37 @@ def handle(request, route, data):
         return {'account': None}
     if route == 'orders/': return create_order(request, data)
     require_admin(request)
+    if route == 'dishes/save/':
+        identifier = data.get('id_colacion')
+        dish = Colacion.objects.filter(pk=identifier).first() if identifier else Colacion()
+        if dish is None: raise ApiError('Colación no encontrada.', 404)
+        for field in ['nombre_colacion', 'descripcion_colacion', 'precio_colacion', 'categoria', 'imagen', 'tiempo_estimado', 'activa_colacion']:
+            if field not in data: raise ApiError('Completa todos los campos de la colación.')
+            setattr(dish, field, data[field])
+        if type(data['precio_colacion']) is not int or data['precio_colacion'] <= 0: raise ApiError('El precio debe ser un entero mayor que cero.')
+        if type(data['activa_colacion']) is not bool: raise ApiError('Estado de colación inválido.')
+        ingredients = data.get('ingredientes')
+        if not isinstance(ingredients, list) or not 1 <= len(ingredients) <= 100: raise ApiError('Agrega entre 1 y 100 ingredientes.')
+        dish.full_clean()
+        dish.save()
+        rows, seen = [], set()
+        for item in ingredients:
+            if not isinstance(item, dict) or type(item.get('insumo_id')) is not int: raise ApiError('Selecciona un insumo válido.')
+            supply_id = item['insumo_id']
+            if supply_id in seen: raise ApiError('No repitas un insumo en la misma receta.')
+            seen.add(supply_id)
+            row = Receta(colacion=dish, insumo_id=supply_id, nombre_receta=dish.nombre_colacion, cantidad_necesaria_receta=item.get('cantidad'))
+            row.full_clean(validate_unique=False, validate_constraints=False)
+            rows.append(row)
+        dish.recetas.all().delete()
+        for row in rows: row.save()
+        return {'ok': True, 'id_colacion': dish.pk}
+    if route == 'dishes/delete/':
+        dish = Colacion.objects.filter(pk=data.get('id_colacion')).first()
+        if not dish: raise ApiError('Colación no encontrada.', 404)
+        if DetallePedido.objects.filter(colacion=dish).exists(): raise ApiError('La colación tiene pedidos históricos. Puedes pausarla para retirarla de la carta.', 409)
+        dish.delete()
+        return {'ok': True}
     parts = route.strip('/').split('/')
     if len(parts) != 3 or not parts[1].isdigit(): raise ApiError('Ruta no encontrada.', 404)
     category, identifier, action = parts
