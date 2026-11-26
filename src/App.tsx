@@ -12,10 +12,10 @@ import { ModalVerCodigoVanilla } from './components/ModalVerCodigoVanilla';
 
 const AppContent: React.FC = () => {
   const { activeModule, loading, dataError, refresh } = useApp();
-  const { account, entered, showProfile, authLoading, authError } = useAuth();
+  const { account, showLogin, showProfile, authLoading, authError } = useAuth();
   if (authLoading) return <main className="min-h-screen bg-[#E7E2DA] p-10 text-center">Conectando con el servidor…</main>;
   if (authError) return <main className="min-h-screen bg-[#E7E2DA] p-10 text-center"><p role="alert">{authError}</p><button onClick={() => window.location.reload()} className="mt-4 bg-orange-700 text-white px-4 py-2 rounded-lg">Reintentar conexión</button></main>;
-  if (!entered) return <Login />;
+  if (showLogin) return <><Navbar /><Login /></>;
   const isAdmin = account?.role === 'administrador';
 
   return (

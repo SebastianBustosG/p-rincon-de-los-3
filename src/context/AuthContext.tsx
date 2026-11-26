@@ -4,6 +4,7 @@ export interface Account { id: string; username: string; telefono: string; direc
 interface AuthState {
   account: Account | null; entered: boolean; showProfile: boolean; authLoading: boolean; authError: string;
   setShowProfile: (show: boolean) => void;
+  showLogin: boolean; setShowLogin: (show: boolean) => void;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, telefono: string, direccion: string, password: string) => Promise<void>;
   updateProfile: (data: { username: string; telefono: string; direccion: string; currentPassword?: string; newPassword?: string }) => Promise<void>;
@@ -12,22 +13,22 @@ interface AuthState {
   enterGuest: () => void; logout: () => Promise<void>;
 }
 const AuthContext = createContext<AuthState | undefined>(undefined);
-const GUEST = 'rincon_django_guest';
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [account, setAccount] = useState<Account | null>(null);
   const [entered, setEntered] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState('');
   useEffect(() => {
     let active = true;
     api('auth/session/').then(result => {
-      if (active) { setAccount(result.account); setEntered(!!result.account || sessionStorage.getItem(GUEST) === '1'); }
+      if (active) { setAccount(result.account); setEntered(true); }
     }).catch(err => { if (active) setAuthError(err.message); }).finally(() => { if (active) setAuthLoading(false); });
     return () => { active = false; };
   }, []);
   function start(user: Account | null) {
-    sessionStorage.removeItem(GUEST); setAccount(user); setEntered(!!user); setShowProfile(false);
+    setAccount(user); setEntered(true); setShowLogin(false); setShowProfile(false);
   }
   async function login(username: string, password: string) { start((await api('auth/login/', { username, password })).account); }
   async function register(username: string, telefono: string, direccion: string, password: string) { start((await api('auth/register/', { username, telefono, direccion, password })).account); }
@@ -39,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
   async function deleteAccount(password: string) { await api('auth/delete/', { password }); start(null); }
   async function logout() { await api('auth/logout/', {}); start(null); }
-  function enterGuest() { sessionStorage.setItem(GUEST, '1'); setAccount(null); setEntered(true); setShowProfile(false); }
-  return <AuthContext.Provider value={{ account, entered, showProfile, setShowProfile, authLoading, authError, login, register, updateProfile, updateAdminCredentials, deleteAccount, enterGuest, logout }}>{children}</AuthContext.Provider>;
+  function enterGuest() { setShowLogin(false); setShowProfile(false); }
+  return <AuthContext.Provider value={{ account, entered, showProfile, setShowProfile, showLogin, setShowLogin, authLoading, authError, login, register, updateProfile, updateAdminCredentials, deleteAccount, enterGuest, logout }}>{children}</AuthContext.Provider>;
 }
 export function useAuth() { const context = useContext(AuthContext); if (!context) throw new Error('AuthProvider requerido'); return context; }
