@@ -1,3 +1,4 @@
+import { FooterInstitucional } from './components/FooterInstitucional';
 import { PerfilAdministrador } from './components/PerfilAdministrador';
 import React from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -32,16 +33,7 @@ const AppContent: React.FC = () => {
         {!showProfile && isAdmin && activeModule === 'admin' && <Modulo3Admin />}
       </main>
 
-      <footer className="bg-white border-t border-stone-200 py-6 text-center text-xs text-stone-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-serif font-medium text-stone-700">
-            © 2026 El rincón de los 3 · Emprendimiento de Colaciones Caseras Chilenas
-          </p>
-          <div className="flex items-center gap-4 text-stone-400 text-[11px]">
-            <span>CLP $</span>
-          </div>
-        </div>
-      </footer>
+
 
       {isAdmin && <ModalVerCodigoVanilla />}
     </div>
@@ -52,6 +44,7 @@ export default function App() {
   return (
     <AuthProvider><AppProvider>
       <AppContent />
+      <FooterInstitucional />
     </AppProvider></AuthProvider>
   );
 }
